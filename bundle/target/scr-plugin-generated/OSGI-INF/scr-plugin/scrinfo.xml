@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><components xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0">
+    <scr:component enabled="true" name="com.aem.TitlePropertyListener">
+        <implementation class="com.aem.TitlePropertyListener"/>
+        <property name="service.pid" value="com.aem.TitlePropertyListener" private="false"/>
+        <reference name="repository" interface="org.apache.sling.jcr.api.SlingRepository" cardinality="1..1" policy="static" bind="bindRepository" unbind="unbindRepository" checked="true" strategy="event"/>
+    </scr:component>
+    <scr:component enabled="true" name="com.aem.impl.HelloServiceImpl">
+        <implementation class="com.aem.impl.HelloServiceImpl"/>
+        <service servicefactory="false">
+            <provide interface="com.aem.HelloService"/>
+        </service>
+        <property name="service.pid" value="com.aem.impl.HelloServiceImpl" private="false"/>
+        <reference name="repository" interface="org.apache.sling.jcr.api.SlingRepository" cardinality="1..1" policy="static" bind="bindRepository" unbind="unbindRepository" checked="true" strategy="event"/>
+    </scr:component>
+    <scr:component enabled="true" name="com.aem.impl.RepositoryServiceImpl" activate="activate" deactivate="deactivate">
+        <implementation class="com.aem.impl.RepositoryServiceImpl"/>
+        <service servicefactory="false">
+            <provide interface="com.aem.RepositoryService"/>
+        </service>
+        <property name="service.pid" value="com.aem.impl.RepositoryServiceImpl" private="false"/>
+        <reference name="repository" interface="javax.jcr.Repository" cardinality="1..1" policy="static" bind="bindRepository" unbind="unbindRepository" checked="true" strategy="event"/>
+    </scr:component>
+    <scr:component enabled="true" immediate="true" name="com.aem.impl.filters.LoggingFilter">
+        <implementation class="com.aem.impl.filters.LoggingFilter"/>
+        <service servicefactory="false">
+            <provide interface="javax.servlet.Filter"/>
+        </service>
+        <property name="service.ranking" type="Integer" value="-700" private="false"/>
+        <property name="sling.filter.scope" value="REQUEST" private="false"/>
+        <property name="service.pid" value="com.aem.impl.filters.LoggingFilter" private="false"/>
+    </scr:component>
+    <scr:component enabled="true" name="com.aem.JdbcSlingServlet">
+        <implementation class="com.aem.JdbcSlingServlet"/>
+        <service servicefactory="false">
+            <provide interface="javax.servlet.Servlet"/>
+        </service>
+        <property name="sling.servlet.paths" value="/bin/company/jdbc" private="false"/>
+        <property name="sling.servlet.methods" value="GET" private="false"/>
+        <property name="service.pid" value="com.aem.JdbcSlingServlet" private="false"/>
+    </scr:component>
+    <scr:component enabled="true" name="com.aem.MySafeMethodServlet">
+        <implementation class="com.aem.MySafeMethodServlet"/>
+        <service servicefactory="false">
+            <provide interface="javax.servlet.Servlet"/>
+        </service>
+        <property name="sling.servlet.paths" value="/bin/company/repo" private="false"/>
+        <property name="sling.servlet.methods" value="GET" private="false"/>
+        <property name="service.pid" value="com.aem.MySafeMethodServlet" private="false"/>
+    </scr:component>
+</components>
